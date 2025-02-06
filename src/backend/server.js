@@ -3,6 +3,11 @@ const app = express();
 const port = 8080;
 const path = require('path');
 const bodyParser = require("body-parser");
+// autres imports
+const cors = require("cors");
+
+app.use(cors());
+// suite du code
 
 const tasksRoutes = require("./routes/tasksRoutes");
 
