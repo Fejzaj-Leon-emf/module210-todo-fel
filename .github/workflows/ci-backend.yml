@@ -19,7 +19,7 @@ jobs:
 
       - name: Log in to Exoscale Container Registry
         run: |
-          echo docker login -u quentin.badoud@edufr.ch -p C4cG4FfJBBpe4cWHSZ5HjgXWFR4wa7wU exo.container-registry.com exo.container-registry.com
+          echo docker login -u quentin.badoud@edufr.ch -p C4cG4FfJBBpe4cWHSZ5HjgXWFR4wa7wU exo.container-registry.com
 
       - name: Build docker image
         run: |
