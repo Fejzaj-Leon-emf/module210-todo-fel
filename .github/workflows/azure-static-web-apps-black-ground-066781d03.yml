@@ -78,7 +78,7 @@ jobs:
       - name: Build docker image
         run: |
           cd ./src/backend
-          docker build -t exo.container-registry.com/testleon:latest .
+          docker build -t exo.container-registry.com/c213-emf/testleon:latest .
 
       - name: Push docker image to Exoscale registry
         run: |
