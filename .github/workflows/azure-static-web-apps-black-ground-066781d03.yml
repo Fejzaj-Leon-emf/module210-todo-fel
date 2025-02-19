@@ -36,20 +36,13 @@ jobs:
         with:
           fetch-depth: 0  # Récupère tout l'historique Git pour éviter l'erreur "git rev-parse HEAD"
       
-      - name: Run Lighthouse CI Action
-        uses: treosh/lighthouse-ci-action@v12
+      - uses: actions/checkout@v3
         with:
-          urls: https://swa.leonfejzaj.emf-informatique.ch/
-          configPath: .github/workflows/lighthouserc.json
-          uploadArtifacts: false
-          temporaryPublicStorage: true
-          runs: 1
-          artifactName: lighthouse-results
-          assertions: |
-            categories:performance
-            categories:accessibility
-            categories:best-practices
-            categories:seo
+          fetch-depth: 0
+      - name: Installer les dépendances
+        run: npm install -g @lhci/cli@0.7.x
+      - name: Exécuter Lighthouse CI
+        run: lhci autorun --config=.github/workflows/lighthouserc.json
 
 
   close_pull_request_job:
