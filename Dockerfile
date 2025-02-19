@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Nettoyer le cache npm et installer les dépendances
-RUN npm cache clean --force && npm install --verbose
+RUN npm install
 
 # Copier le reste des fichiers de l'application dans le conteneur
 COPY . .
