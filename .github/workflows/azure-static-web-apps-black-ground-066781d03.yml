@@ -77,6 +77,7 @@ jobs:
 
       - name: Build docker image
         run: |
+          cd ./src/backend
           docker build -t exo.container-registry.com/testleon:latest .
 
       - name: Tag image
