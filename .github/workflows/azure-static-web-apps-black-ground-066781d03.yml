@@ -36,14 +36,21 @@ jobs:
         with:
           fetch-depth: 0  # Récupère tout l'historique Git pour éviter l'erreur "git rev-parse HEAD"
       
-      - name: Lighthouse CI Action
+      - name: Run Lighthouse CI Action
         uses: treosh/lighthouse-ci-action@v12
         with:
           urls: https://swa.leonfejzaj.emf-informatique.ch/
-          configPath: .github/workflows/lighthouserc.json 
+          configPath: .github/workflows/lighthouserc.json
           uploadArtifacts: false
           temporaryPublicStorage: true
           runs: 1
+          artifactName: lighthouse-results
+          assertions: |
+            categories:performance
+            categories:accessibility
+            categories:best-practices
+            categories:seo
+
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
