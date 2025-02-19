@@ -1,5 +1,10 @@
 {
   "ci": {
+    "collect": {
+      "url": [
+        "https://swa.leonfejzaj.emf-informatique.ch/"
+      ]
+    },
     "assertions": {
       "categories:performance": ["error", { "minScore": 0.99 }],
       "categories:accessibility": ["error", { "minScore": 0.99 }],
