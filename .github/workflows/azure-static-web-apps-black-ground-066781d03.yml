@@ -63,13 +63,18 @@ jobs:
     needs: build_and_deploy_job
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Récupère tout l'historique Git pour éviter l'erreur "git rev-parse HEAD"
+      
       - name: Lighthouse CI Action
         uses: treosh/lighthouse-ci-action@v12
         with:
           urls: https://swa.leonfejzaj.emf-informatique.ch/
-          uploadArtifacts: false 
-          temporaryPublicStorage: true # Fournit un lien public temporaire pour consulter le rapport
-          runs: 1
+          uploadArtifacts: false
+          temporaryPublicStorage: true
+          runs: 3
+
 
 
     
