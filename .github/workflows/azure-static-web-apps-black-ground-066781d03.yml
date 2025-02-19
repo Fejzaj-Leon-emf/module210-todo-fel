@@ -35,14 +35,8 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Récupère tout l'historique Git pour éviter l'erreur "git rev-parse HEAD"
-      
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Installer les dépendances
-        run: npm install -g @lhci/cli@0.7.x
-      - name: Exécuter Lighthouse CI
-        run: lhci autorun --config=.github/workflows/lighthouserc.json
+      
 
 
   close_pull_request_job:
@@ -70,8 +64,29 @@ jobs:
             echo "Erreur : index.html n'existe pas!"
             exit 1
           fi
+  build-and-deploy_docker:
+    runs-on: ubuntu-latest
 
-      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Log in to Exoscale Container Registry
+        run: |
+          docker login -u quentin.badoud@edufr.ch -p C4cG4FfJBBpe4cWHSZ5HjgXWFR4wa7wU exo.container-registry.com
+
+      - name: Build docker image
+        run: |
+          docker build -t exo.container-registry.com/testLeon:latest .
+
+      - name: Tag image
+        run: |
+          docker tag  exo.container-registry.com/c213-emf/testLeon:latest
+
+      - name: Push docker image to Exoscale registry
+        run: |
+          docker push exo.container-registry.com/c213-emf/testLeon:latest
+          
 
 
 
