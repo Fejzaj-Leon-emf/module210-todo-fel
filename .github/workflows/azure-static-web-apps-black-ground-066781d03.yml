@@ -69,7 +69,7 @@ jobs:
           urls: https://swa.leonfejzaj.emf-informatique.ch/
           uploadArtifacts: false 
           temporaryPublicStorage: true # Fournit un lien public temporaire pour consulter le rapport
-          runs: 3
+          runs: 1
 
 
     
