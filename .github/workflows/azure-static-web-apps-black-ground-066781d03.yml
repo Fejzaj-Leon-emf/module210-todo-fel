@@ -77,15 +77,15 @@ jobs:
 
       - name: Build docker image
         run: |
-          docker build -t exo.container-registry.com/testLeon:latest .
+          docker build -t exo.container-registry.com/testleon:latest .
 
       - name: Tag image
         run: |
-          docker tag  exo.container-registry.com/c213-emf/testLeon:latest
+          docker tag  exo.container-registry.com/c213-emf/testleon:latest
 
       - name: Push docker image to Exoscale registry
         run: |
-          docker push exo.container-registry.com/c213-emf/testLeon:latest
+          docker push exo.container-registry.com/c213-emf/testleon:latest
           
 
 
