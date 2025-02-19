@@ -40,7 +40,7 @@ jobs:
         uses: treosh/lighthouse-ci-action@v12
         with:
           urls: https://swa.leonfejzaj.emf-informatique.ch/
-          configPath: .github/workflows/lighthouserc.json 
+          configPath: lighthouserc.json 
           uploadArtifacts: false
           temporaryPublicStorage: true
           runs: 1
