@@ -9,7 +9,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Étape 4 : Installer les dépendances
-RUN npm install --production
+RUN npm install
 
 # Étape 5 : Copier tout le reste du code dans le conteneur
 COPY . .
