@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "build-css": "lessc styles.less styles.css",
+    "watch-css": "lessc styles.less styles.css --watch"
+  },
+  "devDependencies": {
+    "less": "^4.2.2"
+  }
+}
