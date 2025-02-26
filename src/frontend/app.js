@@ -3,100 +3,102 @@ const apiEndpoint = "https://ci-cd-backend-fejzaj-byguegb4bebjgsa2.northeurope-0
 $(document).ready(function () {
   loadTasks();
 
-  // Ajouter une nouvelle tâche
-  $("#todo-form").on("submit", async function (e) {
+  // Ajout d'une tâche dans la colonne "À faire"
+  $(".task-form").on("submit", async function (e) {
     e.preventDefault();
-
-    const description = $("#todo-input").val().trim();
+    const input = $(this).find("input");
+    const description = input.val().trim();
     if (description === "") return;
-
-    const task = { description };
+    const newTask = { description: description, status: "todo" };
 
     try {
       await fetch(apiEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(task),
+        body: JSON.stringify(newTask),
       });
+      input.val("");
       loadTasks();
-      $("#todo-input").val("");
     } catch (error) {
       console.error("Erreur lors de l'ajout de la tâche :", error);
     }
   });
 
-  // Marquer une tâche comme terminée (ou non)
-  $("#todo-list").on("click", ".task-toggle", async function () {
-    const $taskElement = $(this).closest("li");
-    const taskId = $taskElement.data("id");
-    const isCompleted = $taskElement.hasClass("completed");
-
-    const description = $taskElement.contents().filter(function () {
-      return this.nodeType === 3;
-    }).text().trim();
-
-    if (!description) {
-      console.error("Erreur : la description de la tâche est vide !");
-      return;
-    }
-
-    const updatedTask = { id: taskId, description, completed: !isCompleted };
-
-    try {
-      await fetch(apiEndpoint, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedTask),
-      });
-      loadTasks();
-    } catch (error) {
-      console.error("Erreur lors de la mise à jour de la tâche :", error);
-    }
-  });
-
-  // Supprimer une tâche
-  $("#todo-list").on("click", ".delete-btn", async function (e) {
-    e.stopPropagation();
-    const taskId = $(this).parent().data("id");
-
-    try {
-      await fetch(`${apiEndpoint}?id=${taskId}`, {
-        method: "DELETE",
-      });
-      loadTasks();
-    } catch (error) {
-      console.error("Erreur lors de la suppression de la tâche :", error);
-    }
-  });
-
-  // Charger les tâches
+  // Fonction de chargement des tâches et attribution aux colonnes
   async function loadTasks() {
     try {
       const response = await fetch(apiEndpoint);
       const tasks = await response.json();
 
-      tasks.sort((a, b) => a.completed - b.completed);
+      // Vider tous les conteneurs de tâches
+      $(".task-container").empty();
 
-      $("#todo-list").empty();
       tasks.forEach((task) => {
-        const listItem = $("<li>")
+        // Créer l'élément tâche et le rendre draggable
+        const taskEl = $("<div>")
+          .addClass("task")
+          .attr("draggable", "true")
           .text(task.description)
-          .data("id", task.id)
-          .addClass(task.completed ? "completed" : "")
-          .append(
-            $("<button>").text("Delete").addClass("delete-btn")
-          )
-          .prepend(
-            $("<input>")
-              .attr("type", "checkbox")
-              .addClass("task-toggle")
-              .prop("checked", task.completed)
-          );
+          .data("id", task.id);
 
-        $("#todo-list").append(listItem);
+        // Gestion du dragstart
+        taskEl.on("dragstart", function (e) {
+          e.originalEvent.dataTransfer.setData("text/plain", task.id);
+        });
+
+        // Attribution à la colonne selon le statut
+        if (task.status === "todo") {
+          $("#todo .task-container").append(taskEl);
+        } else if (task.status === "in-progress") {
+          $("#in-progress .task-container").append(taskEl);
+        } else if (task.status === "done") {
+          $("#done .task-container").append(taskEl);
+        }
       });
     } catch (error) {
       console.error("Erreur lors du chargement des tâches :", error);
     }
   }
+
+  // Gestion du drag & drop pour chaque conteneur de tâches
+  $(".task-container").on("dragover", function (e) {
+    e.preventDefault();
+    $(this).addClass("dragover");
+  });
+
+  $(".task-container").on("dragleave", function (e) {
+    $(this).removeClass("dragover");
+  });
+
+  $(".task-container").on("drop", function (e) {
+    e.preventDefault();
+    $(this).removeClass("dragover");
+    const taskId = e.originalEvent.dataTransfer.getData("text/plain");
+
+    // Déterminer le nouveau statut en fonction de la colonne parent
+    const newStatus = $(this).closest(".kanban-column").attr("id");
+
+    // Récupérer la description actuelle (pour simplifier)
+    const taskEl = $(".task").filter(function () {
+      return $(this).data("id") == taskId;
+    });
+    const description = taskEl.text();
+
+    const updatedTask = {
+      id: taskId,
+      description: description,
+      status: newStatus,
+    };
+
+    // Mise à jour de la tâche via l'API
+    fetch(apiEndpoint, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedTask),
+    })
+      .then(() => loadTasks())
+      .catch((error) =>
+        console.error("Erreur lors de la mise à jour de la tâche :", error)
+      );
+  });
 });

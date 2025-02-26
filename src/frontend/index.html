@@ -3,35 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ultimate Todo List & 3D Pyramid</title>
+    <title>Tableau Kanban</title>
     <link rel="stylesheet" href="styles.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="app.js" defer></script>
   </head>
   <body>
-    <div class="pyramid-container">
-      <div class="pyramid">
-        <div class="glow"></div>
-        <div>
-          <span style="--i: 0"></span>
-          <span style="--i: 1"></span>
-          <span style="--i: 2"></span>
-          <span style="--i: 3"></span>
-        </div>
-      </div>
-    </div>
-    <div class="app-container">
-      <h1>Todo App is soooo cool</h1>
-      <form id="todo-form">
-        <input
-          type="text"
-          id="todo-input"
-          placeholder="Add a new task"
-          required
-        />
-        <button type="submit">Add</button>
-      </form>
-      <ul id="todo-list"></ul>
-    </div>
+    <header>
+      <h1>Mon Tableau Kanban</h1>
+    </header>
+    <main class="kanban">
+      <section class="kanban-column" id="todo">
+        <h2>À faire</h2>
+        <div class="task-container"></div>
+        <form class="task-form">
+          <input type="text" placeholder="Nouvelle tâche" required />
+          <button type="submit">Ajouter</button>
+        </form>
+      </section>
+      <section class="kanban-column" id="in-progress">
+        <h2>En cours</h2>
+        <div class="task-container"></div>
+      </section>
+      <section class="kanban-column" id="done">
+        <h2>Terminé</h2>
+        <div class="task-container"></div>
+      </section>
+    </main>
   </body>
 </html>
