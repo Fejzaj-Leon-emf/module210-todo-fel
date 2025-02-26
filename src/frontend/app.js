@@ -1,4 +1,4 @@
-const apiEndpoint = "https://container-app-fejzaj.victoriouscliff-77d5d57d.westus2.azurecontainerapps.io/api/tasks";
+const apiEndpoint = "https://ci-cd-backend-fejzaj-byguegb4bebjgsa2.northeurope-01.azurewebsites.net/api/tasks";
 
 $(document).ready(function () {
   loadTasks();

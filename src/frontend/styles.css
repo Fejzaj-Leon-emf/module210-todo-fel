@@ -13,8 +13,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+<<<<<<< HEAD
   min-height: 100vh;
   background-color: var(--dark-green);
+=======
+  height: 100vh;
+  color: #3333;
+>>>>>>> 75c14edeac34bfe8505a0ff8deb8709831c152f9
 }
 
 .container {
@@ -61,6 +66,7 @@ body {
   }
 }
 
+<<<<<<< HEAD
 .pyramid div {
   position: absolute;
   top: 0;
@@ -93,3 +99,9 @@ body {
   filter: blur(20px);
   box-shadow: 0 0 500px var(--light-green);
 }
+=======
+  button {
+    border-radius: 8px;
+  }
+}
+>>>>>>> 75c14edeac34bfe8505a0ff8deb8709831c152f9
